@@ -2,7 +2,7 @@ name: Keep InfinityFree Alive
 
 on:
   schedule:
-    # Jalan setiap 12 jam (00:00 dan 12:00 UTC)
+    # Jalan setiap 12 jam
     - cron: '0 0,12 * * *'
   
   # Bisa dijalankan manual
@@ -15,12 +15,6 @@ jobs:
     steps:
       - name: Ping Website Perpustakaan
         run: |
-          echo "🌐 Mengecek website perpustakaan..."
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://perpustakaan-online.kesug.com)
-          echo "Status HTTP: $RESPONSE"
-          
-          if [ "$RESPONSE" = "200" ]; then
-            echo "✅ Website berhasil diakses!"
-          else
-            echo "⚠️ Website tidak bisa diakses (status: $RESPONSE)"
-          fi 
+          echo "Mengecek website..."
+          curl -L -s -o /dev/null -w "HTTP Status: %{http_code}\n" https://perpustakaan-online.kesug.com || true
+          echo "Selesai!" 
